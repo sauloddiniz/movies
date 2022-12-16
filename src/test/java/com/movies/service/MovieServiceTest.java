@@ -52,7 +52,7 @@ class MovieServiceTest{
 
     @Test
     @Order(1)
-    public void saveMovie() {
+    public void saveMovieOnDbIdoNonNull() {
 
         when(artistClient.findArtistsByNameAndSubname(anyString(), anyString())).thenReturn(artistDto);
 
@@ -63,7 +63,7 @@ class MovieServiceTest{
 
     @Test
     @Order(2)
-    public void saveMovieException() {
+    public void trySaveMovieAndThrowObjetExist() {
 
         when(artistClient.findArtistsByNameAndSubname(anyString(), anyString())).thenReturn(artistDto);
 
