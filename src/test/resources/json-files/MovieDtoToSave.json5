@@ -1,0 +1,12 @@
+{
+  "name": "Jo Jo",
+  "genre": ["comedy"],
+  "releaseDate": "2022-12-04",
+  "artists": [
+    {
+      "name" : "Saulo",
+      "subName" : "Dias"
+    }
+  ],
+  "costProduction": 200.00
+}

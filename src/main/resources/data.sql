@@ -1,0 +1,1 @@
+INSERT INTO movies(moviesId,name,genre,releaseDate,costProduction,artists) VALUES(null, 'Jó Jó Bizarre', 'Somewhat Famous',["Anime","Comic"], '2022-12-12', 200.50, ["123-456-789-10"]);

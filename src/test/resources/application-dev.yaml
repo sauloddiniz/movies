@@ -1,0 +1,15 @@
+amazon:
+  aws:
+    account: 377704527648
+    access-key: localstack
+    secret-key: localstack
+    dynamodb:
+      endpoint: http://localstack:4566
+      region: us-east-1
+
+api-artist:
+  artist: "http://localhost:8091"
+
+logging:
+  level:
+    root: debug

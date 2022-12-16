@@ -1,0 +1,30 @@
+amazon:
+  aws:
+    account: 377704527648
+    access-key: localstack
+    secret-key: localstack
+    dynamodb:
+      endpoint: http://localhost:4566
+      region: us-east-1
+
+server:
+  port: 8090
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+springdoc:
+  paths-to-match: "/movies"
+  swagger-ui:
+    use-root-path: true
+
+spring:
+  profiles:
+    active: local
+
+logging:
+  level:
+    root: INFO

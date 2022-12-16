@@ -1,0 +1,38 @@
+version: '3.7'
+
+services:
+  localstack:
+    container_name: localstack
+    image: localstack/localstack:latest
+    environment:
+      - DEBUG=1
+      - USE_SSL=0
+      - AWS_CBOR_DISABLE=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - HOSTNAME=localstack
+      - SERVICES=dynamodb
+      - AWS_DEFAULT_REGION=us-east-1
+    ports:
+      - '4566-4583:4566-4583'
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./script/localstack/dynamodb/init-dynamodb.sh:/docker-entrypoint-initaws.d/init-dynamodb.sh
+    networks:
+      - movie-net
+
+  movies:
+    container_name: movies
+    image: movies:latest
+    ports:
+      - "8090:8090"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    depends_on:
+      - localstack
+    networks:
+      - movie-net
+
+networks:
+  movie-net:
+    driver: bridge
