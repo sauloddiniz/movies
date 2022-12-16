@@ -29,6 +29,8 @@ class MovieServiceTest{
 
     private static MovieDTO movieDto;
     private static ArtistDTO artistDto;
+    private String id;
+
 
     @SneakyThrows
     @BeforeAll()

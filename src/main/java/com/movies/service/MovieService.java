@@ -39,10 +39,6 @@ public class MovieService {
                 .ifPresent(e -> {throw new ObjectPresentException("Movie already exist: " + e.getName());});
     }
 
-    public void deleteById(Movie movie) {
-        moviesRepository.deleteById(movie.getMovieId());
-    }
-
     public Movie findById(String id){
         return Optional.ofNullable(moviesRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new ObjectNotFoundException("Movie not exist: " +id))).get();
