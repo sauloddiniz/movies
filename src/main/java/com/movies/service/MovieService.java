@@ -1,7 +1,8 @@
 package com.movies.service;
 
 import com.movies.client.ArtistClient;
-import com.movies.config.exception.ObjectPresentException;
+import com.movies.exception.ObjectNotFoundException;
+import com.movies.exception.ObjectPresentException;
 import com.movies.model.DTO.ArtistDTO;
 import com.movies.model.DTO.MovieDTO;
 import com.movies.model.Movie;
@@ -11,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,7 +39,12 @@ public class MovieService {
                 .ifPresent(e -> {throw new ObjectPresentException("Movie already exist: " + e.getName());});
     }
 
-    public void deleteAll() {
-        moviesRepository.deleteAll();
+    public void deleteById(Movie movie) {
+        moviesRepository.deleteById(movie.getMovieId());
+    }
+
+    public Movie findById(String id){
+        return Optional.ofNullable(moviesRepository.findById(UUID.fromString(id))
+                .orElseThrow(() -> new ObjectNotFoundException("Movie not exist: " +id))).get();
     }
 }

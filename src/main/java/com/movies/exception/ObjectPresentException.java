@@ -1,4 +1,4 @@
-package com.movies.config.exception;
+package com.movies.exception;
 
 public class ObjectPresentException extends RuntimeException {
     public ObjectPresentException(String message) {

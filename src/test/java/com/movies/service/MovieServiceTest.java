@@ -2,22 +2,15 @@ package com.movies.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movies.client.ArtistClient;
-import com.movies.config.exception.ObjectPresentException;
+import com.movies.exception.ObjectPresentException;
 import com.movies.model.DTO.ArtistDTO;
 import com.movies.model.DTO.MovieDTO;
 import com.movies.model.Movie;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.*;
-import org.mockito.internal.matchers.Any;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.TestExecutionListener;
-import org.springframework.test.context.event.annotation.AfterTestClass;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;

@@ -1,9 +1,8 @@
-package com.movies.config.exception;
+package com.movies.exception;
 
 import com.movies.model.DTO.Error.ErrorFieldDTO;
 import com.movies.model.DTO.Error.ErrorResponseDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +21,22 @@ import java.util.stream.Collectors;
 public class DefaultException extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ObjectPresentException.class)
-    public ResponseEntity<Object> moviePresentException(ObjectPresentException exception, WebRequest request){
+    public ResponseEntity<Object> objectPresentException(ObjectPresentException exception, WebRequest request){
         String path = getPath((ServletWebRequest) request);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorResponseDTO
                 .builder()
                         .message(exception.getMessage())
                         .status(HttpStatus.CONFLICT.getReasonPhrase())
+                        .path(path)
+                .build());
+    }
+    @ExceptionHandler(ObjectNotFoundException.class)
+    public ResponseEntity<Object> objectNotFoundException(ObjectNotFoundException exception, WebRequest request){
+        String path = getPath((ServletWebRequest) request);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponseDTO
+                .builder()
+                        .message(exception.getMessage())
+                        .status(HttpStatus.NOT_FOUND.getReasonPhrase())
                         .path(path)
                 .build());
     }
