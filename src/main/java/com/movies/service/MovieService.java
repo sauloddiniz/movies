@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -40,7 +39,7 @@ public class MovieService {
     }
 
     public Movie findById(String id){
-        return Optional.ofNullable(moviesRepository.findById(UUID.fromString(id))
-                .orElseThrow(() -> new ObjectNotFoundException("Movie not exist: " +id))).get();
+        return moviesRepository.findById(UUID.fromString(id))
+                .orElseThrow(() -> new ObjectNotFoundException("Movie not exist: " +id));
     }
 }
