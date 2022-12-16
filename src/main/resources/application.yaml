@@ -10,6 +10,9 @@ amazon:
 server:
   port: 8090
 
+api-artist:
+  artist: "http://localhost:8091"
+
 management:
   endpoints:
     web:

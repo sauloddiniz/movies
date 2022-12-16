@@ -6,65 +6,89 @@ import com.movies.exception.ObjectPresentException;
 import com.movies.model.DTO.ArtistDTO;
 import com.movies.model.DTO.MovieDTO;
 import com.movies.model.Movie;
+import com.movies.repository.MoviesRepository;
 import lombok.SneakyThrows;
-import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Optional;
 
-@SpringBootTest
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class MovieServiceTest{
 
-    @Autowired
+@ExtendWith(MockitoExtension.class)
+class MovieServiceTest {
+
+    @InjectMocks
     private MovieService movieService;
-    @MockBean
+
+    @Mock
+    private MoviesRepository moviesRepository;
+
+    @Mock
     private ArtistClient artistClient;
 
-    private static MovieDTO movieDto;
-    private static ArtistDTO artistDto;
-    private String id;
 
 
     @SneakyThrows
-    @BeforeAll()
-    public static void init(){
-
+    @Test
+    void whenSaveThenReturnObjectWithId() {
         String path = "src/test/resources/json-files/";
         ObjectMapper mapper = new ObjectMapper();
 
-        movieDto = mapper.readValue(
+        MovieDTO movieDTO = mapper.readValue(
                 new File(path.concat("MovieDtoToSave.json5")), MovieDTO.class);
-        artistDto = mapper.readValue(
+        ArtistDTO  artistDTO = mapper.readValue(
                 new File(path.concat("ArtistDtoToSave.json5")), ArtistDTO.class);
+        Movie movie = mapper.readValue(
+                new File(path.concat("MovieSave.json5")), Movie.class);
+
+        Mockito.when(moviesRepository.findByName(Mockito.anyString())).thenReturn(Optional.empty());
+        Mockito.when(artistClient.findArtistsByNameAndSubname(Mockito.anyString(),Mockito.anyString())).thenReturn(artistDTO);
+        Mockito.when(moviesRepository.save(Mockito.any(Movie.class))).thenReturn(movie);
+
+        Movie aux = movieService.saveMovie(movieDTO);
+
+        Assertions.assertNotNull(aux.getMovieId());
+    }
+
+    @SneakyThrows
+    @Test
+    void whenSaveThenReturnThrowObjectPresent() {
+        String path = "src/test/resources/json-files/";
+        ObjectMapper mapper = new ObjectMapper();
+
+        Movie movie = mapper.readValue(
+                new File(path.concat("MovieSave.json5")), Movie.class);
+        MovieDTO movieDTO = mapper.readValue(
+                new File(path.concat("MovieDtoToSave.json5")), MovieDTO.class);
+        String message = "Movie already exist: " + movie.getName();
+
+        Mockito.when(moviesRepository.findByName(Mockito.anyString())).thenReturn(Optional.of(movie));
+
+        ObjectPresentException thrown = assertThrows(ObjectPresentException.class, () -> movieService.saveMovie(movieDTO));
+
+        assertEquals(message,thrown.getMessage());
     }
 
     @Test
-    @Order(1)
-    public void saveMovieOnDbIdoNonNull() {
-
-        when(artistClient.findArtistsByNameAndSubname(anyString(), anyString())).thenReturn(artistDto);
-
-        Movie movie = movieService.saveMovie(movieDto);
-
-        Assertions.assertNotNull(movie.getMovieId());
+    void alreadyExistMovie() {
     }
 
     @Test
-    @Order(2)
-    public void trySaveMovieAndThrowObjetExist() {
-
-        when(artistClient.findArtistsByNameAndSubname(anyString(), anyString())).thenReturn(artistDto);
-
-        ObjectPresentException thrown = assertThrows(ObjectPresentException.class, ()-> movieService.saveMovie(movieDto));
-
-        Assertions.assertEquals("Movie already exist: " + movieDto.getName(), thrown.getMessage());
+    void findById() {
     }
 
+
+    private void constructorObjects(){
+
+    }
 }
