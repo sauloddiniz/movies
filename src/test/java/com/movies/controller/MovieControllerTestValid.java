@@ -1,7 +1,6 @@
 package com.movies.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.movies.model.dto.ArtistDTO;
 import com.movies.model.dto.MovieDTO;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -13,7 +12,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
