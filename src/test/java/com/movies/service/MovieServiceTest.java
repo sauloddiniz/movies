@@ -20,6 +20,8 @@ import java.io.File;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 
 @ExtendWith(MockitoExtension.class)
 class MovieServiceTest {
@@ -47,9 +49,9 @@ class MovieServiceTest {
         Movie movieSaved = mapper.readValue(
                 new File(path.concat("MovieSaved.json5")), Movie.class);
 
-        Mockito.when(moviesRepository.findByName(Mockito.anyString())).thenReturn(Optional.empty());
-        Mockito.when(artistClient.findArtistsByNameAndSubname(Mockito.anyString(),Mockito.anyString())).thenReturn(artistDTO);
-        Mockito.when(moviesRepository.save(Mockito.any(Movie.class))).thenReturn(movieSaved);
+        Mockito.when(moviesRepository.findByName(anyString())).thenReturn(Optional.empty());
+        Mockito.when(artistClient.findArtistsByNameAndSubname(anyString(), anyString())).thenReturn(artistDTO);
+        Mockito.when(moviesRepository.save(any(Movie.class))).thenReturn(movieSaved);
 
         Movie movie = movieService.saveMovie(movieNotSaved);
 
@@ -64,11 +66,15 @@ class MovieServiceTest {
                 new File(path.concat("MovieSaved.json5")), Movie.class);
         String message = "Movie already exist: Jo Jo" ;
 
-        Mockito.when(moviesRepository.findByName(Mockito.anyString())).thenReturn(Optional.of(movie));
+        Mockito.when(moviesRepository.findByName(anyString())).thenReturn(Optional.of(movie));
 
-        ObjectPresentException thrown = assertThrows(ObjectPresentException.class, () -> movieService.saveMovie(movie));
+        try {
+            movieService.saveMovie(movie);
+        }catch (Exception e){
+            assertEquals(ObjectPresentException.class, e.getClass());
+            assertEquals(message,e.getMessage());
+        }
 
-        assertEquals(message,thrown.getMessage());
     }
 
     @SneakyThrows
@@ -92,17 +98,18 @@ class MovieServiceTest {
     @Test
     void whenFindByIdThenThrowObjectNotFoundException() {
 
-        UUID id = UUID.fromString("baaaa3b9-6e39-40ff-af42-d3eed2729357");
-        String message = "Movie not exist: baaaa3b9-6e39-40ff-af42-d3eed2729357";
-        Movie movieNotSaved = mapper.readValue(
-                new File(path.concat("MovieSaved.json5")), Movie.class);
+        UUID id = UUID.randomUUID();
+        String message = "Movie not exist: " +id;
 
-        Mockito.when(moviesRepository.findById(movieNotSaved.getMovieId())).thenReturn(Optional.empty());
+        Mockito.when(moviesRepository.findById(id)).thenThrow(new ObjectNotFoundException("Movie not exist: " +id));
 
-        ObjectNotFoundException thrown = assertThrows(
-                ObjectNotFoundException.class, () -> movieService.findById(id));
+        try {
+            movieService.findById(id);
+        } catch (Exception e){
+            assertEquals(ObjectNotFoundException.class, e.getClass());
+            assertEquals(message, e.getMessage());
+        }
 
-        assertEquals(message,thrown.getMessage());
     }
 
     @SneakyThrows
@@ -117,6 +124,8 @@ class MovieServiceTest {
 
         List<Movie> movies = movieService.findAll();
 
+        assertNotNull(movies);
+        assertEquals(Movie.class, movies.get(0).getClass());
         assertEquals(listSize,movies.size());
     }
 
@@ -131,6 +140,7 @@ class MovieServiceTest {
 
         List<Movie> movies = movieService.findAll();
 
+        assertEquals(List.of(), movies);
         assertEquals(0,movies.size());
     }
 }
