@@ -44,4 +44,6 @@ public class MovieService {
     public List<Movie> findAll() {
         return moviesRepository.findAll();
     }
+
+    public void deleteById(UUID id) {moviesRepository.deleteById(id);}
 }

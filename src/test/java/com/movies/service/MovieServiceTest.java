@@ -143,4 +143,16 @@ class MovieServiceTest {
         assertEquals(List.of(), movies);
         assertEquals(0,movies.size());
     }
+    @SneakyThrows
+    @Test
+    void whenDeleteThenSuccess() {
+
+        UUID id = UUID.randomUUID();
+
+        Mockito.doNothing().when(moviesRepository).deleteById(any());
+
+        movieService.deleteById(id);
+
+        Mockito.verify(moviesRepository, Mockito.times(1)).deleteById(id);
+    }
 }
