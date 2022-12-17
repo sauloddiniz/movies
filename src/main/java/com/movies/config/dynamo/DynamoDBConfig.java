@@ -1,11 +1,10 @@
 package com.movies.config.dynamo;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
+import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,17 +30,19 @@ public class DynamoDBConfig {
 
     @Bean
     public AmazonDynamoDB amazonDynamoDB() {
-        AmazonDynamoDB dynamoDB = new AmazonDynamoDBClient(amazonAWSCredentials());
-        dynamoDB.setEndpoint(amazonDynamoDBEndpoint);
-        return dynamoDB;
+        return AmazonDynamoDBClientBuilder.standard()
+                .withCredentials(getCredentialsProvider())
+                .withEndpointConfiguration(getEndpointConfiguration(amazonDynamoDBEndpoint))
+                .build();
+    }
+    private AwsClientBuilder.EndpointConfiguration getEndpointConfiguration(String url) {
+        return new AwsClientBuilder.EndpointConfiguration(url, amazonDynamoDBRegion);
+    }
+    private AWSStaticCredentialsProvider getCredentialsProvider() {
+        return new AWSStaticCredentialsProvider(getBasicAWSCredentials());
     }
 
-    @Bean
-    public AWSCredentialsProvider awsCredentials() {
-        return new DefaultAWSCredentialsProviderChain();
-    }
-
-    private AWSCredentials amazonAWSCredentials() {
+    private BasicAWSCredentials getBasicAWSCredentials() {
         return new BasicAWSCredentials(amazonAWSAccessKey, amazonAWSSecretKey);
     }
 }
