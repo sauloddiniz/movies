@@ -37,8 +37,8 @@ public class MovieService {
                 .ifPresent(e -> {throw new ObjectPresentException("Movie already exist: " + e.getName());});
     }
 
-    public Movie findById(String id){
-        return moviesRepository.findById(UUID.fromString(id))
+    public Movie findById(UUID id){
+        return moviesRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Movie not exist: " +id));
     }
 }

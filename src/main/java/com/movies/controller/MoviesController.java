@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -73,7 +74,8 @@ public class MoviesController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MovieDTO> findById(@PathVariable String id){
-        return ResponseEntity.ok(MovieDTO.converter(movieService.findById(id)));
+        UUID uuid = UUID.fromString(id);
+        return ResponseEntity.ok(MovieDTO.converter(movieService.findById(uuid)));
     }
 }
 
