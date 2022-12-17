@@ -1,7 +1,7 @@
 package com.movies.exception;
 
-import com.movies.model.DTO.Error.ErrorFieldDTO;
-import com.movies.model.DTO.Error.ErrorResponseDTO;
+import com.movies.model.dto.Error.ErrorFieldDTO;
+import com.movies.model.dto.Error.ErrorResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

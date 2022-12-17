@@ -3,7 +3,7 @@ package com.movies.service;
 import com.movies.client.ArtistClient;
 import com.movies.exception.ObjectNotFoundException;
 import com.movies.exception.ObjectPresentException;
-import com.movies.model.DTO.ArtistDTO;
+import com.movies.model.dto.ArtistDTO;
 import com.movies.model.Movie;
 import com.movies.repository.MoviesRepository;
 import lombok.RequiredArgsConstructor;

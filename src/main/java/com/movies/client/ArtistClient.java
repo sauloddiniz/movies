@@ -1,6 +1,6 @@
 package com.movies.client;
 
-import com.movies.model.DTO.ArtistDTO;
+import com.movies.model.dto.ArtistDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;

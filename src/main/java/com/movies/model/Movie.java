@@ -1,8 +1,8 @@
 package com.movies.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
-import com.movies.model.DTO.ArtistDTO;
-import com.movies.model.DTO.MovieDTO;
+import com.movies.model.dto.ArtistDTO;
+import com.movies.model.dto.MovieDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

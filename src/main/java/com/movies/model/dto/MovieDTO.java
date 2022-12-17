@@ -1,4 +1,4 @@
-package com.movies.model.DTO;
+package com.movies.model.dto;
 
 import com.movies.model.Movie;
 import lombok.AllArgsConstructor;

@@ -1,7 +1,7 @@
 package com.movies.controller;
 
-import com.movies.model.DTO.Error.ErrorResponseDTO;
-import com.movies.model.DTO.MovieDTO;
+import com.movies.model.dto.Error.ErrorResponseDTO;
+import com.movies.model.dto.MovieDTO;
 import com.movies.model.Movie;
 import com.movies.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
