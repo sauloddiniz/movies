@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 @Slf4j
-public class DefaultException extends ResponseEntityExceptionHandler {
+public class DefaultResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ObjectPresentException.class)
     public ResponseEntity<Object> objectPresentException(ObjectPresentException exception, WebRequest request){
