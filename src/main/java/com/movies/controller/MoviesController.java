@@ -3,7 +3,6 @@ package com.movies.controller;
 import com.movies.model.DTO.Error.ErrorResponseDTO;
 import com.movies.model.DTO.MovieDTO;
 import com.movies.model.Movie;
-import com.movies.repository.MoviesRepository;
 import com.movies.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -28,11 +27,10 @@ import java.util.stream.Collectors;
 @Slf4j
 @Tag(name = "movies", description = "endpoints for manager movies")
 public class MoviesController {
-    private final MoviesRepository moviesRepository;
+
     private final MovieService movieService;
 
-    public MoviesController(MoviesRepository moviesRepository, MovieService movieService) {
-        this.moviesRepository = moviesRepository;
+    public MoviesController(MovieService movieService) {
         this.movieService = movieService;
     }
 
@@ -47,10 +45,10 @@ public class MoviesController {
                             array = @ArraySchema(schema = @Schema(implementation = Arrays.class)))})
     })
     public ResponseEntity<List<MovieDTO>> findAllMovies(){
-        List<Movie> listMovies = moviesRepository.findAll();
-        return listMovies.isEmpty() ?
-                ResponseEntity.noContent().build() :
-                ResponseEntity.ok(listMovies.stream().map(MovieDTO::converter).collect(Collectors.toList()));
+        List<Movie> listMovies = movieService.findAll();
+        return listMovies.isEmpty()
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.ok(listMovies.stream().map(MovieDTO::converter).collect(Collectors.toList()));
     }
 
     @PostMapping

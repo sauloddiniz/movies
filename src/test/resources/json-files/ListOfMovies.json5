@@ -1,0 +1,24 @@
+[
+  {
+    "movieId":"baaaa3b9-6e39-40ff-af42-d3eed2729357",
+    "name": "Jo Jo",
+    "genre": ["comedy"],
+    "releaseDate": "2022-12-04",
+    "artists": ["baaaa3b9-6e39-40ff-af42-d3eed2729357"],
+    "listArtist": [
+      {"name" : "Saulo", "subName" : "Dias"}
+    ],
+    "costProduction": 200.00
+  },
+  {
+    "movieId":"baaaa3b9-6e39-40ff-af42-d3eed2729357",
+    "name": "Peal Harbor",
+    "genre": ["comedy","Action"],
+    "releaseDate": "2010-12-04",
+    "artists": ["baaaa3b9-6e39-40ff-af42-d3eed2729357"],
+    "listArtist": [
+      {"name" : "Saulo", "subName" : "Dias"}
+    ],
+    "costProduction": 300.00
+  }
+]

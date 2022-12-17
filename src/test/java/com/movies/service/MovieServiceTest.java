@@ -17,8 +17,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.File;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -104,5 +103,34 @@ class MovieServiceTest {
                 ObjectNotFoundException.class, () -> movieService.findById(id));
 
         assertEquals(message,thrown.getMessage());
+    }
+
+    @SneakyThrows
+    @Test
+    void whenFindAllThenReturnListSize() {
+
+        Integer listSize = 2;
+        List<Movie> listMovies = Arrays.asList(mapper.readValue(
+                new File(path.concat("ListOfMovies.json5")), Movie[].class));
+
+        Mockito.when(moviesRepository.findAll()).thenReturn(listMovies);
+
+        List<Movie> movies = movieService.findAll();
+
+        assertEquals(listSize,movies.size());
+    }
+
+    @SneakyThrows
+    @Test
+    void whenFindAllThenReturnListEmpty() {
+
+        List<Movie> listMoviesEmpty = Arrays.asList(mapper.readValue(
+                new File(path.concat("ListEmpty.json5")), Movie[].class));
+
+        Mockito.when(moviesRepository.findAll()).thenReturn(listMoviesEmpty);
+
+        List<Movie> movies = movieService.findAll();
+
+        assertEquals(0,movies.size());
     }
 }

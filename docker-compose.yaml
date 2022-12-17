@@ -18,3 +18,25 @@ services:
       - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
       - /var/run/docker.sock:/var/run/docker.sock
       - ./script/localstack/dynamodb/init-dynamodb.sh:/docker-entrypoint-initaws.d/init-dynamodb.sh
+
+  sonarqube:
+    image: sonarqube:8.2-community
+    ports:
+      - "9000:9000"
+    networks:
+      - sonarnet
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_temp:/opt/sonarqube/temp
+
+networks:
+  sonarnet:
+    driver: bridge
+
+volumes:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
+  sonarqube_temp:

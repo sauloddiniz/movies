@@ -4,7 +4,6 @@ import com.movies.client.ArtistClient;
 import com.movies.exception.ObjectNotFoundException;
 import com.movies.exception.ObjectPresentException;
 import com.movies.model.DTO.ArtistDTO;
-import com.movies.model.DTO.MovieDTO;
 import com.movies.model.Movie;
 import com.movies.repository.MoviesRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,5 +39,9 @@ public class MovieService {
     public Movie findById(UUID id){
         return moviesRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Movie not exist: " +id));
+    }
+
+    public List<Movie> findAll() {
+        return moviesRepository.findAll();
     }
 }
