@@ -22,19 +22,18 @@ public class MovieService {
     private final ArtistClient artistClientService;
     private final MoviesRepository moviesRepository;
 
-    public Movie saveMovie(MovieDTO movieRequest) {
-        alreadyExistMovie(movieRequest);
-        List<ArtistDTO> listArtist = movieRequest.getArtists()
+    public Movie saveMovie(Movie movie) {
+        alreadyExistMovie(movie);
+        List<ArtistDTO> listArtist = movie.getListArtist()
                 .stream()
                 .map(e -> artistClientService.findArtistsByNameAndSubname(e.getName(), e.getSubName()))
                 .collect(Collectors.toList());
-        movieRequest.setArtists(listArtist);
-        movieRequest.setArtistsId(listArtist.stream().map(ArtistDTO::getArtistId).collect(Collectors.toList()));
-        return moviesRepository.save(Movie.converter(movieRequest));
+        movie.setArtists(listArtist.stream().map(ArtistDTO::getArtistId).collect(Collectors.toList()));
+        return moviesRepository.save(movie);
     }
 
-    public void alreadyExistMovie(MovieDTO movieRequest) {
-        moviesRepository.findByName(movieRequest.getName())
+    public void alreadyExistMovie(Movie movie) {
+        moviesRepository.findByName(movie.getName())
                 .ifPresent(e -> {throw new ObjectPresentException("Movie already exist: " + e.getName());});
     }
 

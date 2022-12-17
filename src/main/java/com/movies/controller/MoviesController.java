@@ -66,7 +66,7 @@ public class MoviesController {
                             schema = @Schema(implementation = ErrorResponseDTO.class))})
     })
     public ResponseEntity<MovieDTO> saveMovie(@Valid @RequestBody MovieDTO movieRequest){
-        Movie movie = movieService.saveMovie(movieRequest);
+        Movie movie = movieService.saveMovie(Movie.converter(movieRequest));
         URI uri = URI.create(movie.getMovieId().toString());
         return ResponseEntity.created(uri).body(MovieDTO.converter(movie));
     }

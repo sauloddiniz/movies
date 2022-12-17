@@ -5,5 +5,8 @@
   "genre": ["comedy"],
   "releaseDate": "2022-12-04",
   "artists": ["baaaa3b9-6e39-40ff-af42-d3eed2729357"],
+  "listArtist": [
+    {"name" : "Saulo", "subName" : "Dias"}
+  ],
   "costProduction": 200.00
 }
