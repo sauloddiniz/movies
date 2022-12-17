@@ -5,7 +5,6 @@ import com.movies.model.Movie;
 import com.movies.model.dto.MovieDTO;
 import com.movies.service.MovieService;
 import lombok.SneakyThrows;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -65,7 +63,7 @@ class MoviesControllerTest {
 
     @SneakyThrows
     @Test
-    void saveMovie() {
+    void whenSaveThenSuccess() {
 
         MovieDTO request = mapper.readValue(new File(PATH.concat("MovieDtoToSave.json5")), MovieDTO.class);
         Movie requestSave = mapper.readValue(new File(PATH.concat("MovieSaved.json5")), Movie.class);
@@ -81,7 +79,7 @@ class MoviesControllerTest {
 
     @SneakyThrows
     @Test
-    void findById() {
+    void whenCallFindByIdThenReturnSuccess() {
 
         Movie requestSave = mapper.readValue(new File(PATH.concat("MovieSaved.json5")), Movie.class);
         String id = "baaaa3b9-6e39-40ff-af42-d3eed2729357";
@@ -93,4 +91,5 @@ class MoviesControllerTest {
         assertNotNull(response.getBody());
         assertEquals(id, response.getBody().getMovieId());
     }
+
 }

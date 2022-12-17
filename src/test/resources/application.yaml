@@ -13,3 +13,7 @@ api-artist:
 logging:
   level:
     root: info
+
+spring:
+  profiles:
+    active: local
