@@ -1,6 +1,6 @@
 package com.movies.controller;
 
-import com.movies.model.dto.Error.ErrorResponseDTO;
+import com.movies.model.dto.error.ErrorResponseDTO;
 import com.movies.model.dto.MovieDTO;
 import com.movies.model.Movie;
 import com.movies.service.MovieService;

@@ -1,4 +1,4 @@
-package com.movies.model.dto.Error;
+package com.movies.model.dto.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

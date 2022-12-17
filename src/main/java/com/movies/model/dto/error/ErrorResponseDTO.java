@@ -1,4 +1,4 @@
-package com.movies.model.dto.Error;
+package com.movies.model.dto.error;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
