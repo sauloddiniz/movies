@@ -2,11 +2,9 @@ package com.movies.client.config;
 
 import feign.Response;
 import feign.codec.ErrorDecoder;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-@Configuration
 public class FeignErrorDecode implements ErrorDecoder {
 
     @Override
