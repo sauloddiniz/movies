@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -38,7 +37,7 @@ public class Movie implements Serializable {
 
     @DynamoDBIgnore
     private List<ArtistDTO> listArtist;
-    public static Movie converter(@NotNull MovieDTO movie){
+    public static Movie converter(MovieDTO movie){
        return Movie.builder()
                .name(movie.getName())
                .genre(movie.getGenre())

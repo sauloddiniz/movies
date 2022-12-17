@@ -37,7 +37,6 @@ class MovieServiceTest {
     private final String path = "src/test/resources/json-files/";;
     ObjectMapper mapper = new ObjectMapper();
 
-
     @SneakyThrows
     @Test
     void whenSaveThenReturnObjectWithId() {
