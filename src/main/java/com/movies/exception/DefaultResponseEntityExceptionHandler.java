@@ -31,6 +31,16 @@ public class DefaultResponseEntityExceptionHandler extends ResponseEntityExcepti
                         .method(request.getMethod())
                 .build());
     }
+    @ExceptionHandler(UpdateConflictException.class)
+    public ResponseEntity<ErrorResponseDTO> objectIsNotSame(UpdateConflictException exception, HttpServletRequest request){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorResponseDTO
+                .builder()
+                        .message(exception.getMessage())
+                        .status(HttpStatus.CONFLICT.getReasonPhrase())
+                        .path(request.getServletPath())
+                        .method(request.getMethod())
+                .build());
+    }
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<ErrorResponseDTO> objectNotFoundException(ObjectNotFoundException exception, HttpServletRequest request){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponseDTO

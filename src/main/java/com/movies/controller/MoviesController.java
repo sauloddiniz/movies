@@ -75,5 +75,12 @@ public class MoviesController {
         UUID uuid = UUID.fromString(id);
         return ResponseEntity.ok(MovieDTO.converter(movieService.findById(uuid)));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MovieDTO> update(@PathVariable("id") String id, @Valid @RequestBody MovieDTO movieDto){
+        UUID uuid = UUID.fromString(id);
+        Movie movie = movieService.update(uuid, Movie.converter(movieDto));
+        return ResponseEntity.ok(MovieDTO.converter(movie));
+    }
 }
 

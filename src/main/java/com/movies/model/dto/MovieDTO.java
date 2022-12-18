@@ -26,12 +26,12 @@ public class MovieDTO {
     private List<String> genre;
     @Size(min = 1)
     @NotNull
-    private List<ArtistDTO> artists;
+    private List<ArtistDTO> listArtist;
     @NotNull
     private Date releaseDate;
     @DecimalMin("0.01")
     private BigDecimal costProduction;
-    private List<String> artistsId;
+    private List<String> listArtistId;
 
     public static MovieDTO converter(Movie movie){
         return MovieDTO.builder()
@@ -40,7 +40,7 @@ public class MovieDTO {
                 .genre(movie.getGenre())
                 .releaseDate(movie.getReleaseDate())
                 .costProduction(movie.getCostProduction())
-                .artists(movie.getListArtist())
+                .listArtist(movie.getListArtist())
                 .build();
     }
 }

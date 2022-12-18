@@ -4,10 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movies.client.ArtistClient;
 import com.movies.exception.ObjectNotFoundException;
 import com.movies.exception.ObjectPresentException;
+import com.movies.exception.UpdateConflictException;
 import com.movies.model.dto.ArtistDTO;
 import com.movies.model.Movie;
+import com.movies.model.dto.MovieDTO;
 import com.movies.repository.MoviesRepository;
 import lombok.SneakyThrows;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -36,6 +39,7 @@ class MovieServiceTest {
     private ArtistClient artistClient;
     private final String path = "src/test/resources/json-files/";;
     ObjectMapper mapper = new ObjectMapper();
+
 
     @SneakyThrows
     @Test
@@ -153,5 +157,36 @@ class MovieServiceTest {
         movieService.deleteById(id);
 
         Mockito.verify(moviesRepository, Mockito.times(1)).deleteById(id);
+    }
+
+    @SneakyThrows
+    @Test
+    void whenUpdateThenSuccess() {
+
+        Movie movieSaved = mapper.readValue(new File(path.concat("MovieSaved.json5")), Movie.class);
+        UUID id = movieSaved.getMovieId();
+
+        Mockito.when(moviesRepository.findById(id)).thenReturn(Optional.of(movieSaved));
+
+        Movie response = movieService.update(id,movieSaved);
+
+        Assertions.assertEquals(movieSaved.getMovieId(), response.getMovieId());
+    }
+
+    @SneakyThrows
+    @Test
+    void whenUpdateThenException() {
+
+        Movie movieSaved = mapper.readValue(new File(path.concat("MovieSaved.json5")), Movie.class);
+        UUID id = UUID.randomUUID();
+
+        Mockito.when(moviesRepository.findById(id)).thenReturn(Optional.of(movieSaved));
+
+        try {
+            movieService.update(id,movieSaved);
+        } catch (Exception e){
+            assertEquals(UpdateConflictException.class,e.getClass());
+            assertEquals("Object is different", e.getMessage());
+        }
     }
 }

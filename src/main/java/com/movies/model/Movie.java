@@ -33,7 +33,7 @@ public class Movie implements Serializable {
     @DynamoDBAttribute
     private BigDecimal costProduction;
     @DynamoDBAttribute
-    private List<String> artists;
+    private List<String> listArtistId;
 
     @DynamoDBIgnore
     private List<ArtistDTO> listArtist;
@@ -43,8 +43,8 @@ public class Movie implements Serializable {
                .genre(movie.getGenre())
                .releaseDate(movie.getReleaseDate())
                .costProduction(movie.getCostProduction())
-               .listArtist(movie.getArtists())
-               .artists(movie.getArtistsId())
+               .listArtist(movie.getListArtist())
+               .listArtistId(movie.getListArtistId())
                .build();
     }
 

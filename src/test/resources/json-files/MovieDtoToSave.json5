@@ -2,7 +2,7 @@
   "name": "Jo Jo",
   "genre": ["comedy"],
   "releaseDate": "2022-12-04",
-  "artists": [
+  "listArtist": [
     {
       "name" : "Saulo",
       "subName" : "Dias"

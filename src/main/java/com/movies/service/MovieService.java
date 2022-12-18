@@ -1,6 +1,7 @@
 package com.movies.service;
 
 import com.movies.client.ArtistClient;
+import com.movies.exception.UpdateConflictException;
 import com.movies.exception.ObjectNotFoundException;
 import com.movies.exception.ObjectPresentException;
 import com.movies.model.dto.ArtistDTO;
@@ -27,7 +28,7 @@ public class MovieService {
                 .stream()
                 .map(e -> artistClientService.findArtistsByNameAndSubname(e.getName(), e.getSubName()))
                 .collect(Collectors.toList());
-        movie.setArtists(listArtist.stream().map(ArtistDTO::getArtistId).collect(Collectors.toList()));
+        movie.setListArtistId(listArtist.stream().map(ArtistDTO::getArtistId).collect(Collectors.toList()));
         return moviesRepository.save(movie);
     }
 
@@ -46,4 +47,17 @@ public class MovieService {
     }
 
     public void deleteById(UUID id) {moviesRepository.deleteById(id);}
+
+    public Movie update(UUID id, Movie movie) {
+        verifyObject(id, movie);
+        moviesRepository.save(movie);
+        return movie;
+    }
+
+    private void verifyObject(UUID id, Movie movie) {
+        moviesRepository.findById(id).ifPresent(e -> {
+            if (!e.getMovieId().equals(movie.getMovieId()))
+                throw new UpdateConflictException("Object is different");
+        });
+    }
 }
