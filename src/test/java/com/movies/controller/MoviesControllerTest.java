@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -90,6 +91,22 @@ class MoviesControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(id, response.getBody().getMovieId());
+    }
+
+    @SneakyThrows
+    @Test
+    void whenCallUpdateThenReturnSuccess() {
+
+        Movie movieUpdate = mapper.readValue(new File(PATH.concat("MovieUpdated.json5")), Movie.class);
+        MovieDTO request = mapper.readValue(new File(PATH.concat("MovieSaved.json5")), MovieDTO.class);
+        String id = request.getMovieId();
+
+        Mockito.when(movieService.update(Mockito.any(UUID.class), Mockito.any())).thenReturn(movieUpdate);
+
+        ResponseEntity<MovieDTO> response = moviesController.update(id, request);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
     }
 
 }

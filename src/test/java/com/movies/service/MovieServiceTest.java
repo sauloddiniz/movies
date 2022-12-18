@@ -178,18 +178,34 @@ class MovieServiceTest {
 
     @SneakyThrows
     @Test
-    void whenUpdateThenException() {
+    void whenUpdateThenUpdateConflictException() {
+
+        Movie movieSaved = mapper.readValue(new File(path.concat("MovieSaved.json5")), Movie.class);
+        Movie movieUpdated = mapper.readValue(new File(path.concat("MovieUpdated.json5")), Movie.class);
+
+        Mockito.when(moviesRepository.findById(any())).thenReturn(Optional.of(movieSaved));
+
+        try {
+            movieService.update(any(),movieUpdated);
+        } catch (Exception e){
+            assertEquals(UpdateConflictException.class,e.getClass());
+            assertEquals("Object is different", e.getMessage());
+        }
+    }
+    @SneakyThrows
+    @Test
+    void whenUpdateThenNotFoundOException() {
 
         Movie movieSaved = mapper.readValue(new File(path.concat("MovieSaved.json5")), Movie.class);
         UUID id = UUID.randomUUID();
 
-        Mockito.when(moviesRepository.findById(id)).thenReturn(Optional.of(movieSaved));
+        Mockito.when(moviesRepository.findById(id)).thenReturn(Optional.empty());
 
         try {
             movieService.update(id,movieSaved);
         } catch (Exception e){
-            assertEquals(UpdateConflictException.class,e.getClass());
-            assertEquals("Object is different", e.getMessage());
+            assertEquals(ObjectNotFoundException.class,e.getClass());
+            assertEquals("Movie not exist", e.getMessage());
         }
     }
 }

@@ -55,9 +55,13 @@ public class MovieService {
     }
 
     private void verifyObject(UUID id, Movie movie) {
-        moviesRepository.findById(id).ifPresent(e -> {
-            if (!e.getMovieId().equals(movie.getMovieId()))
-                throw new UpdateConflictException("Object is different");
-        });
+        moviesRepository.findById(id).ifPresentOrElse(
+                e -> {  if (e.getMovieId() != (movie.getMovieId())) {
+                    throw new UpdateConflictException("Object is different");
+                }
+                    },
+                () -> {
+                    throw new ObjectNotFoundException("Movie not exist");
+                });
     }
 }
