@@ -24,6 +24,9 @@ services:
   movies:
     container_name: movies
     image: movies:latest
+    build: .
+    volumes:
+      - ./:/usr/app
     ports:
       - "8090:8090"
     environment:
