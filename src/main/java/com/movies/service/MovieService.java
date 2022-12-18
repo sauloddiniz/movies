@@ -33,12 +33,12 @@ public class MovieService {
 
     public void alreadyExistMovie(Movie movie) {
         moviesRepository.findByName(movie.getName())
-                .ifPresent(e -> {throw new ObjectPresentException("Movie already exist: " + e.getName());});
+                .ifPresent(e -> {throw new ObjectPresentException("Movie already exist");});
     }
 
     public Movie findById(UUID id){
         return moviesRepository.findById(id)
-                .orElseThrow(() -> new ObjectNotFoundException("Movie not exist: " +id));
+                .orElseThrow(() -> new ObjectNotFoundException("Movie not exist"));
     }
 
     public List<Movie> findAll() {

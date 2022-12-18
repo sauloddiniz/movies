@@ -13,6 +13,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,23 +22,23 @@ import java.util.stream.Collectors;
 public class DefaultResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ObjectPresentException.class)
-    public ResponseEntity<Object> objectPresentException(ObjectPresentException exception, WebRequest request){
-        String path = getPath((ServletWebRequest) request);
+    public ResponseEntity<ErrorResponseDTO> objectPresentException(ObjectPresentException exception, HttpServletRequest request){
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorResponseDTO
                 .builder()
                         .message(exception.getMessage())
                         .status(HttpStatus.CONFLICT.getReasonPhrase())
-                        .path(path)
+                        .path(request.getServletPath())
+                        .method(request.getMethod())
                 .build());
     }
     @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<Object> objectNotFoundException(ObjectNotFoundException exception, WebRequest request){
-        String path = getPath((ServletWebRequest) request);
+    public ResponseEntity<ErrorResponseDTO> objectNotFoundException(ObjectNotFoundException exception, HttpServletRequest request){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponseDTO
                 .builder()
                         .message(exception.getMessage())
                         .status(HttpStatus.NOT_FOUND.getReasonPhrase())
-                        .path(path)
+                        .path(request.getServletPath())
+                        .method(request.getMethod())
                 .build());
     }
 

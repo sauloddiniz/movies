@@ -25,4 +25,5 @@ public class ErrorResponseDTO implements Serializable {
     private List<ErrorFieldDTO> errors;
     private String path;
     private String message;
+    private String method;
 }

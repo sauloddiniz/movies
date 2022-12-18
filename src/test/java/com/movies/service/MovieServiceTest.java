@@ -63,7 +63,7 @@ class MovieServiceTest {
 
         Movie movie = mapper.readValue(
                 new File(path.concat("MovieSaved.json5")), Movie.class);
-        String message = "Movie already exist: Jo Jo" ;
+        String message = "Movie already exist" ;
 
         Mockito.when(moviesRepository.findByName(anyString())).thenReturn(Optional.of(movie));
 
