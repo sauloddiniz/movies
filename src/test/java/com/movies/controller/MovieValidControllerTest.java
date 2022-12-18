@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest
-public class MovieControllerTestValid{
+public class MovieValidControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
