@@ -164,13 +164,16 @@ class MovieServiceTest {
     void whenUpdateThenSuccess() {
 
         Movie movieSaved = mapper.readValue(new File(path.concat("MovieSaved.json5")), Movie.class);
+        Movie movieUpdated = mapper.readValue(new File(path.concat("MovieUpdated.json5")), Movie.class);
         UUID id = movieSaved.getMovieId();
 
         Mockito.when(moviesRepository.findById(id)).thenReturn(Optional.of(movieSaved));
+        Mockito.when(moviesRepository.save(any(Movie.class))).thenReturn(movieUpdated);
 
         Movie response = movieService.update(id,movieSaved);
 
         Assertions.assertEquals(movieSaved.getMovieId(), response.getMovieId());
+        Assertions.assertEquals(movieSaved.getName(), response.getName());
     }
 
     @SneakyThrows
