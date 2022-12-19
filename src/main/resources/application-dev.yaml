@@ -10,10 +10,6 @@ amazon:
 api-artist:
   artist: "http://localhost:8091"
 
-spring:
-  profiles:
-    active: dev
-
 logging:
   level:
     root: INFO
