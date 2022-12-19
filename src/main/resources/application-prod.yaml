@@ -12,4 +12,4 @@ api-artist:
 
 logging:
   level:
-    root: debug
+    root: info
