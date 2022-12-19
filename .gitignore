@@ -4,8 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 ./volume
-application-prod.yaml
-./src/main/resources/application-prod.yaml
+**/src/main/**/resources/application-prod.yaml
 
 ### STS ###
 .apt_generated
