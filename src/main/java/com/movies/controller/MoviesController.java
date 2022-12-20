@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequestMapping("movies")
-@Slf4j
 @Tag(name = "movies", description = "endpoints for manager movies")
 public class MoviesController {
 
@@ -65,6 +65,7 @@ public class MoviesController {
                             schema = @Schema(implementation = ErrorResponseDTO.class))})
     })
     public ResponseEntity<MovieDTO> saveMovie(@Valid @RequestBody MovieDTO movieRequest){
+        log.info("get all movies " + this.getClass().getName());
         Movie movie = movieService.saveMovie(Movie.converter(movieRequest));
         URI uri = URI.create(movie.getMovieId().toString());
         return ResponseEntity.created(uri).body(MovieDTO.converter(movie));
@@ -72,12 +73,14 @@ public class MoviesController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MovieDTO> findById(@PathVariable String id){
+        log.info("get movie by id " + this.getClass().getName());
         UUID uuid = UUID.fromString(id);
         return ResponseEntity.ok(MovieDTO.converter(movieService.findById(uuid)));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<MovieDTO> update(@PathVariable("id") String id, @Valid @RequestBody MovieDTO movieDto){
+        log.info("save movie " + this.getClass().getName());
         UUID uuid = UUID.fromString(id);
         Movie movie = movieService.update(uuid, Movie.converter(movieDto));
         return ResponseEntity.ok(MovieDTO.converter(movie));

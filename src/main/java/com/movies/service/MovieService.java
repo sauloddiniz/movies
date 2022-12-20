@@ -8,7 +8,6 @@ import com.movies.model.dto.ArtistDTO;
 import com.movies.model.Movie;
 import com.movies.repository.MoviesRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class MovieService {
     private final ArtistClient artistClientService;
