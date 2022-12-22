@@ -28,7 +28,7 @@ class MoviesControllerTest {
     private MoviesController moviesController;
     @Mock
     private MovieService movieService;
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
     private final String PATH = "src/test/resources/json-files/";
 
     @SneakyThrows

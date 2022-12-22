@@ -84,6 +84,12 @@
 			<artifactId>spring-cloud-starter-sleuth</artifactId>
 			<version>3.1.5</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.newrelic.agent.java/newrelic-api -->
+		<dependency>
+			<groupId>com.newrelic.agent.java</groupId>
+			<artifactId>newrelic-api</artifactId>
+			<version>7.11.1</version>
+		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>

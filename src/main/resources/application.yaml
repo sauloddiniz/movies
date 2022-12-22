@@ -18,6 +18,14 @@ management:
     web:
       exposure:
         include: "*"
+  metrics:
+    export:
+      newrelic:
+        account-id: 4fa56420-7207-490f-8928-b3bcd2800429
+        api-key: 07954a140ab268e4f87f91ba4abf93308534NRAL
+        enabled: true
+        meter-name-event-type-enabled: true
+        event-type: true
 
 springdoc:
   paths-to-match: "/movies"
@@ -31,3 +39,4 @@ spring:
 logging:
   level:
     root: info
+

@@ -7,12 +7,17 @@ import com.movies.exception.ObjectPresentException;
 import com.movies.model.dto.ArtistDTO;
 import com.movies.model.Movie;
 import com.movies.repository.MoviesRepository;
+import com.newrelic.api.agent.Trace;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static com.newrelic.api.agent.NewRelic.addCustomParameters;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +25,7 @@ public class MovieService {
     private final ArtistClient artistClientService;
     private final MoviesRepository moviesRepository;
 
+    @Trace
     public Movie saveMovie(Movie movie) {
         alreadyExistMovie(movie);
         List<ArtistDTO> listArtist = movie.getListArtist()
@@ -27,7 +33,9 @@ public class MovieService {
                 .map(e -> artistClientService.findArtistsByNameAndSubname(e.getName(), e.getSubName()))
                 .collect(Collectors.toList());
         movie.setListArtistId(listArtist.stream().map(ArtistDTO::getArtistId).collect(Collectors.toList()));
-        return moviesRepository.save(movie);
+        Movie movieSaved = moviesRepository.save(movie);
+        addCustomParameters(Map.of("movieId", Optional.ofNullable(movieSaved.getMovieId().toString()), "movieName", movieSaved.getName()));
+        return movieSaved;
     }
 
     public void alreadyExistMovie(Movie movie) {
